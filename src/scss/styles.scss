@@ -1,0 +1,75 @@
+@import './variables.scss';
+@import './_mixins.scss';
+
+.paragraphs {
+	font-size: 1rem;
+	line-height: 1.75rem;
+	text-align: justify;
+
+	img {
+		width: 100%;
+		height: auto;
+		max-width: 100%;
+		max-height: 500px;
+		/* Adjust this value to your preference */
+		display: block;
+		/* Ensures no extra space below the image */
+		object-fit: contain;
+		object-position: left;
+		padding: 20px 0;
+		/* Keeps the image aspect ratio intact */
+	}
+
+	h1 {
+		padding: 25px 0;
+	}
+
+	h2 {
+		padding-top: 20px;
+		padding-bottom: 5px;
+	}
+
+	li {
+		list-style: decimal;
+		font-size: 1rem;
+
+		a {
+			text-decoration: none;
+
+		}
+	}
+}
+
+.article {
+
+	h1 {
+		word-wrap: normal;
+
+		@include respond-to-sm {
+			line-height: 2.5rem;
+			font-size: 25px;
+		}
+
+		@include respond-to-xs {
+			line-height: 2rem;
+			font-size: 25px;
+		}
+
+		@include respond-to-md {
+			line-height: 3rem;
+			font-size: 30px;
+		}
+
+		@include respond-to-lg {
+			line-height: 4rem;
+			font-size: 40px;
+		}
+
+		@include respond-to-xl {
+			line-height: 4rem;
+			font-size: 50px;
+		}
+	}
+
+
+}
