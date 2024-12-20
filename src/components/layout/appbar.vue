@@ -28,7 +28,7 @@
 								class="accent--text">fiction</span>
 						</v-toolbar-title>
 					</v-col>
-					<v-col v-if="$vuetify.breakpoint.mdAndUp" cols="2">
+					<v-col v-if="$vuetify.breakpoint.mdAndUp" cols="6 d-flex justify-center">
 						<v-btn v-for="(item, i) in barItems" :key="i" :to="item.to" class="text-capitalize" exact
 							exact-active-class="accent--text" text>{{ item.title }}
 						</v-btn>

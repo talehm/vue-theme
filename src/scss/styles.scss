@@ -14,7 +14,7 @@
 		/* Adjust this value to your preference */
 		display: block;
 		/* Ensures no extra space below the image */
-		object-fit: contain;
+		object-fit: cover;
 		object-position: left;
 		padding: 20px 0;
 		/* Keeps the image aspect ratio intact */
@@ -40,6 +40,9 @@
 	}
 }
 
+.text-hint {
+	color: #ccd1d1;
+}
 .article {
 
 	h1 {
