@@ -16,7 +16,8 @@
 							<div>
 								<!-- <v-chip depressed color="accent"
 									x-chip>{{ getCategoryName(item.categories[0]) }}</v-chip> -->
-								<h3 class="text-h6 font-weight-bold primary--text py-3">{{ item.title.rendered }}</h3>
+								<h3 class="text-h6 font-weight-bold primary--text py-3" v-html="item.title.rendered">
+								</h3>
 								<div class="d-flex align-center">
 									<v-avatar color="accent" size="18">
 										<v-icon dark x-small>mdi-book-open-variant-outline</v-icon>
@@ -51,8 +52,7 @@
 								</template>
 							</media>
 							<v-card-text>
-								<div class="text-h5 font-weight-bold primary--text">
-									{{ item.title.rendered }}
+								<div class="text-h5 font-weight-bold primary--text" v-html="item.title.rendered">
 								</div>
 								<div class="text-body-1 py-4" v-html="item.excerpt.rendered"> </div>
 								<div class="d-flex align-center justify-space-between">
