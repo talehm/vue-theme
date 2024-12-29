@@ -33,12 +33,12 @@
 		</div>
 	</div>
 	<div v-else-if="isGrid" class="pt-16">
-		<h2 class="text-h4 font-weight-bold pb-4">Recommended For You</h2>
+		<h2 v-if="title" class="text-h4 font-weight-bold pb-4">{{ title }}</h2>
 		<v-row v-if="items?.length > 0">
 			<v-col v-for="item in items" :key="item.id" cols="12" lg="4" md="6">
 				<v-hover v-slot:default="{ hover }" close-delay="50" open-delay="50">
 					<div>
-						<v-card :color="hover ? 'white' : 'transparent'" :elevation="hover ? 12 : 0" flat hover
+						<v-card :color="hover ? 'white' : 'transparent'" :elevation="hover ? 12 : 0" flat
 							:to="`/${item.slug}`">
 							<media :aspect-ratio="16 / 9" class="elevation-2"
 								gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)" height="200px"
@@ -70,6 +70,7 @@
 				</v-hover>
 			</v-col>
 		</v-row>
+		<v-row v-else><v-card-text> No posts found </v-card-text> </v-row>
 	</div>
 </template>
 <script>
@@ -85,14 +86,15 @@ export default {
 		isList: {
 			type: Boolean,
 			default: false
-		}
+		},
+		title: String
 	},
 	components: {
 		media: () => import("@/components/details/image.vue"),
 	},
 	computed: {
 		items() {
-			return this.$store.getters[this.type];
+			return this.$store.state[this.type];
 		},
 		categories() {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
@@ -101,7 +103,8 @@ export default {
 	methods: {
 	},
 	mounted() {
-		this.$store.dispatch("getItems", { type: this.type, params: null });
+		// console.log(this.type);
+		// if (this.$store.state[this.type].length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
 		// this.getCategories();
 	}
 

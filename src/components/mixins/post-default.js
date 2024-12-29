@@ -1,18 +1,94 @@
+import _helpers from "@/_helpers";
 export default {
+	data() {
+		return {
+			isReady: false
+		}
+	},
 	computed: {
 		categories() {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
 		},
 	},
-	mounted() {
-		// this.getCategories();
+	beforeRouteUpdate(to, from, next) {
+		this.isReady = false;
+
+		switch (this.$route.name) {
+			case "category":
+				this.fetchCategories(to.params.slug).then(() => next());
+				break;
+			case "article":
+				this.fetchItem(to.params.slug).then(() => next());
+				break;
+			default:
+				break;
+		}
 	},
 	methods: {
-		// getCategories() {
-		// 	// this.postsRequest.params.categories = this.post.categories;
-		// 	if (this.categories?.length > 0) return;
-		// 	return this.$store.dispatch("getItems", { type: "categories", params: null });
-		// },
+		fetchItem(slug) {
+			return new Promise((resolve, reject) => {
+				try {
+					const categories = this.$store.state.categories;
+
+					if (!categories || categories.length === 0) {
+						this.$store.dispatch("getItems", { type: "categories", params: null })
+							.then(() => this.$store.dispatch('getPostBySlug', slug))
+							.then(() => resolve());
+					} else {
+						this.$store.dispatch('getPostBySlug', slug)
+							.then(() => resolve());
+					}
+					// resolve();
+				} catch (error) {
+					console.error('Error fetching post:', error);
+					reject()
+				}
+			})
+
+		},
+		fetchCategories(slug) {
+			return new Promise((resolve, reject) => {
+				try {
+					const categories = this.$store.state.categories;
+					const fetchPosts = (category) => {
+						const name = _helpers.fn.toCamelCase(category.name);
+						return this.$store.dispatch('getItems', {
+							type: "posts",
+							name: name,
+							params: {
+								per_page: 10, // this.$store.state.site.posts_per_page,
+								page: 1,
+								categories: category?.id,
+							}
+						});
+					};
+
+					if (!categories || categories.length === 0) {
+						this.$store.dispatch("getItems", { type: "categories", params: null })
+							.then(() => {
+								const category = this.$store.state.categories.find(c => c.slug === slug);
+								if (category) {
+									fetchPosts(category).then(() => resolve());
+								} else {
+									resolve(); // Handle category not found scenario
+								}
+							});
+					} else {
+						const category = this.$store.state.categories.find(c => c.slug === slug);
+						if (category) {
+							fetchPosts(category).then(() => resolve());
+						} else {
+							resolve(); // Handle category not found scenario
+						}
+					}
+					// fetch authentication data from API
+				} catch (error) {
+					console.error('Error fetching post:', error);
+					reject(false); // Prevent navigation if there's an error
+				}
+			})
+
+		},
 		getCategoryName(id) {
 			const cat = this.categories?.find(c => c.id == id);
 			if (!cat) return null;

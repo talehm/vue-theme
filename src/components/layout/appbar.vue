@@ -66,7 +66,7 @@ export default {
 			},
 			{
 				title: "Categories",
-				to: "/category",
+				to: "/categories",
 			},
 		],
 	}),

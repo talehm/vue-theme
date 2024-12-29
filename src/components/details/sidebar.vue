@@ -1,10 +1,11 @@
 <template>
 	<div>
 		<post-list :type="'posts'" isList />
-		<div class="pt-4">
+		<div class="pt-4" v-if="!noCategory">
 			<h3 class="text-h5 font-weight-medium pb-4">Category</h3>
 			<v-divider></v-divider>
-			<v-card color="accent" dark flat v-for=" cat  in  categories " :key="cat.id" class="my-4">
+			<v-card color="accent" dark flat v-for=" cat  in  categories " :key="cat.id" class="my-4"
+				:to="`/category/${cat.slug}`">
 				<v-card-text class="d-flex justify-space-between align-center white--text">
 					<h6 class="text-h6">{{ cat.name }}</h6>
 					<div class="text-h6">{{ cat.count }}</div>
@@ -49,6 +50,9 @@ import postMixin from "../mixins/post-default";
 export default {
 	name: "SidebarView",
 	mixins: [postMixin],
+	props: {
+		noCategory: Boolean
+	},
 	components: {
 		// Media: () => import("@/components/details/image.vue"),
 		postList: () => import("@/components/details/post-list.vue")

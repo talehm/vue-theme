@@ -21,5 +21,16 @@ export default {
 				],
 			});
 		},
+		toCamelCase(str) {
+			return str
+				.split(' ') // Split words by spaces
+				.map((word, index) =>
+					index === 0
+						? word.toLowerCase() // Lowercase first word
+						: word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() // Capitalize others
+				)
+				.join(''); // Join words
+		}
 	}
+
 };

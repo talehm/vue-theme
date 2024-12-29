@@ -3,7 +3,7 @@
 		<h2 class="text-h4 font-weight-bold pb-4">Featured {{ type }}</h2>
 		<v-row v-if="items?.length > 0">
 			<v-col v-for="item in items" :key="item.id" cols="12" lg="4" md="6" sm="6">
-				<v-card dark flat>
+				<v-card dark flat :to="`/${item.slug}`">
 					<media :aspect-ratio="16 / 9" class="elevation-2 fill-height"
 						gradient="to top, rgba(25,32,72,.4), rgba(25,32,72,.0)" height="600px" :id="item.media" isFull>
 						<template #content>
@@ -59,14 +59,17 @@ export default {
 				id: item.id,
 				media: item.acf?.media,
 				title: item.name,
-				text: `${item.count} articles`
+				text: `${item.count} articles`,
+				slug: "category/" + item.slug
 			}))
 			else return items.map(item => ({
 				id: item.id,
 				media: item.featured_media,
 				title: item.title.rendered,
 				text: ``,
-				category: this.getCategoryName(item.categories[0])
+				category: this.getCategoryName(item.categories[0]),
+				slug: item.slug
+
 			}))
 		},
 		categories() {

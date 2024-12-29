@@ -2,7 +2,7 @@
 	<v-app>
 		<AppBar />
 		<v-container class="mt-16">
-			<router-view></router-view>
+			<router-view :key="$route.params.slug"></router-view>
 		</v-container>
 		<Footer></Footer>
 	</v-app>

@@ -17,7 +17,7 @@
 		<v-row>
 			<v-col cols="12" lg="12" xl="8">
 				<div>
-					<post-list :type="'posts'" isGrid />
+					<post-list :type="'posts'" isGrid title="Recommended For You" />
 					<div class="pt-16">
 						<featured-list :type="'posts'" view="card" />
 					</div>
@@ -77,9 +77,9 @@ export default {
 
 	},
 	methods: {
-
 		getPosts() {
 			// this.postsRequest.params.categories = this.post.categories;
+			if (this.$store.state.posts?.length > 0) return;
 			return this.$store.dispatch("getItems", { type: "posts", params: null });
 		},
 		getCategories() {

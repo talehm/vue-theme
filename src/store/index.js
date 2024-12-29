@@ -8,18 +8,25 @@ export default new Vuex.Store({
 	state: {
 		authData: null,
 		media: [],
-		posts: []
+		posts: [],
+		definitions: []
 	},
 	mutations: {
 		setPost(state, post) {
 			state.post = post;
 		},
 		setItems(state, data) {
-			state[data.type] = data.items;
+			state[data.name ?? data.type] = data.items;
+		},
+		setItem(state, data) {
+			state[data.name ?? data.type] = data.item;
 		},
 		setMedia(state, item) {
 			state.media.push(item);
-		}
+		},
+		setDefinition(state, item) {
+			state.definition = item;
+		},
 	},
 	actions: {
 		async getPostBySlug({ commit }, slug) {
@@ -31,10 +38,35 @@ export default new Vuex.Store({
 				console.error('Error fetching post:', error);
 			}
 		},
-		async getItems({ commit }, { type, params }) {
+		async getDefinitionBySlug({ commit }, slug) {
 			try {
+				const post = await api.fn.getItem(`definition/?slug=${slug}`,);
+				// Commit the post to the state
+				commit('setDefinition', post);
+			} catch (error) {
+				console.error('Error fetching post:', error);
+			}
+		},
+		async getBriefDefinition({ getters, commit }, text) {
+			const type = 'definition';
+			const slug = `definition-of-${text}`;
+			if (!getters.singleBySlug({ type: 'definition', slug: slug })) {
+				const params = { slug: slug, _fields: ['acf.brief', 'id', 'link', 'slug', 'title'] };
+
+				const item = await api.fn.getItem(type, params, false);
+				console.log(item);
+				commit('setItem', { type, name: "definitions", item });
+				return item;
+
+			}
+
+		},
+		async getItems({ commit }, { type, name, params }) {
+			try {
+				console.log(name);
 				const items = await api.fn.getItems(type, params);
-				commit('setItems', { type, items });
+				commit('setItems', { type, name, items });
+				return items;
 			} catch (error) {
 				console.error('Error fetching post:', error);
 			}
@@ -65,6 +97,16 @@ export default new Vuex.Store({
 		},
 		posts(state) {
 			return state.posts;
-		}
+		},
+		categories(state) {
+			return state.categories;
+		},
+		singleBySlug: state => ({ type, slug }) => {
+			for (let id in state[type]) {
+				if (decodeURI(state[type][id].slug) === slug) {
+					return state[type][id];
+				}
+			}
+		},
 	},
 });
