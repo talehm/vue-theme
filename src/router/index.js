@@ -103,7 +103,7 @@ const routes = [
 				if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
 				// to.isReady = false;  // Set the route as ready
 				const slug = to.params.slug; // Get slug dynamically from the URL
-				await store.dispatch('getItemBySlug', { type: "posts", slug });  // fetch authentication data from API
+				await store.dispatch('getItemBySlug', { type: "posts", name: "post", slug });  // fetch authentication data from API
 				next();
 			} catch (error) {
 				console.error('Error fetching post:', error);

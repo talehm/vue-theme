@@ -29,11 +29,11 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		async getItemBySlug({ commit }, { type, slug }) {
+		async getItemBySlug({ commit }, { type, name, slug }) {
 			try {
 				const item = await api.fn.getItem(`${type}/?slug=${slug}`);
 				// Commit the post to the state
-				commit('setItem', { type, item });
+				commit('setItem', { type, name, item });
 			} catch (error) {
 				console.error('Error fetching post:', error);
 			}
@@ -54,7 +54,6 @@ export default new Vuex.Store({
 				const params = { slug: slug, _fields: ['acf.brief', 'id', 'link', 'slug', 'title'] };
 
 				const item = await api.fn.getItem(type, params, false);
-				console.log(item);
 				commit('setItem', { type, name: "definitions", item });
 				return item;
 
@@ -63,7 +62,6 @@ export default new Vuex.Store({
 		},
 		async getItems({ commit }, { type, name, params }) {
 			try {
-				console.log(name);
 				const items = await api.fn.getItems(type, params);
 				commit('setItems', { type, name, items });
 				return items;

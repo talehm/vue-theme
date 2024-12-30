@@ -77,7 +77,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log("DSSS");
 		this.fetchCategories(this.slug).then(() => this.isReady = true);
 	}
 };

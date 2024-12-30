@@ -113,7 +113,6 @@ export default {
 					// let index = 0;
 
 					utterance.onstart = () => {
-						console.log('Speech started');
 						this.onChangeSpeechAction("isSpeaking");
 						this.actions.length = 0;
 						this.addAction(this.actionList.pause);
@@ -121,7 +120,6 @@ export default {
 					};
 
 					utterance.onend = () => {
-						console.log('Speech ended');
 						this.activeParagraph++;
 						if (this.activeParagraph < paragraphs.length - 1) {
 							this.speak(paragraphs);
@@ -138,7 +136,6 @@ export default {
 					};
 
 					utterance.onresume = () => {
-						console.log('Speech resumed');
 						this.onChangeSpeechAction("isResumed");
 						this.actions.length = 0;
 						this.addAction(this.actionList.pause);
@@ -146,7 +143,6 @@ export default {
 					};
 
 					utterance.onpause = () => {
-						console.log('Speech paused');
 						this.onChangeSpeechAction("isPaused");
 						this.actions.length = 0;
 						this.addAction(this.actionList.resume);

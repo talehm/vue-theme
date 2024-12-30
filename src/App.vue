@@ -19,8 +19,7 @@ export default {
 	},
 	data: () => ({}),
 	mounted() {
-		// const med = this.getImageThumbnail(646);
-		// console.log(med);
+
 	}
 };
 </script>

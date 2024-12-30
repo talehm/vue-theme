@@ -123,8 +123,6 @@ export default {
 
 			return `${time} min read`;
 		},
-		// getImageThumbnail(id) {
-		// 	if (id > 0) this.getImageById(id).then(media => { console.log(media?.media_details.sizes.thumbnail.source_url); return media?.media_details.sizes.thumbnail.source_url; });
-		// }
+
 	}
 }

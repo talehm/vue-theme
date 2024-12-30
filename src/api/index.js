@@ -13,7 +13,6 @@ export default {
 			// Make the fetch request with the provided URL and options
 			const response = await fetch(url, params);
 			const data = await response.json();
-			console.log(data);
 			if (hasSEO) _helpers.fn.addYoastMeta(data[0]);
 
 			// Handle the response
