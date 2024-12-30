@@ -31,24 +31,8 @@ export default {
 	},
 	computed: {
 		page() {
-			return this.$store.getters.singleBySlug(this.request);
+			return this.$store.state.pages;
 		},
-	},
-	methods: {
-		getPage() {
-			this.$store.dispatch("getSingleBySlug", this.request).then(() => {
-				if (this.page) {
-					this.$store.dispatch("updateDocTitle", {
-						parts: [this.page.title.rendered, this.$store.state.site.name],
-					});
-				} else {
-					// this.$router.replace('/404')
-				}
-			});
-		},
-	},
-	created() {
-		this.getPage();
 	},
 };
 </script>
