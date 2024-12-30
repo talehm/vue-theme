@@ -29,11 +29,11 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		async getPostBySlug({ commit }, slug) {
+		async getItemBySlug({ commit }, { type, slug }) {
 			try {
-				const post = await api.fn.getItem(`posts/?slug=${slug}`);
+				const item = await api.fn.getItem(`${type}/?slug=${slug}`);
 				// Commit the post to the state
-				commit('setPost', post);
+				commit('setItem', { type, item });
 			} catch (error) {
 				console.error('Error fetching post:', error);
 			}

@@ -32,10 +32,10 @@ export default {
 
 					if (!categories || categories.length === 0) {
 						this.$store.dispatch("getItems", { type: "categories", params: null })
-							.then(() => this.$store.dispatch('getPostBySlug', slug))
+							.then(() => this.$store.dispatch('getItemBySlug', { type: "posts", slug }))
 							.then(() => resolve());
 					} else {
-						this.$store.dispatch('getPostBySlug', slug)
+						this.$store.dispatch('getItemBySlug', { type: "posts", slug })
 							.then(() => resolve());
 					}
 					// resolve();
