@@ -9,10 +9,10 @@
 						<v-list-item-title>{{ item.text }}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
-				<v-list-item v-for="(item, i) in barItems" :key="i" :href="item.href" :target="item.target"
+				<v-list-item v-for="(item, i) in categories" :key="i" :href="item.href" :target="item.target"
 					:to="item.to" link>
 					<v-list-item-content>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
+						<v-list-item-title>{{ item.name }}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
 			</v-list>
@@ -28,10 +28,27 @@
 								class="accent--text">fiction</span>
 						</v-toolbar-title>
 					</v-col>
-					<v-col v-if="$vuetify.breakpoint.mdAndUp" cols="6 d-flex justify-center">
-						<v-btn v-for="(item, i) in barItems" :key="i" :to="item.to" class="text-capitalize" exact
-							exact-active-class="accent--text" text>{{ item.title }}
-						</v-btn>
+					<v-col v-if="$vuetify.breakpoint.mdAndUp" cols="6 d-flex flex-row justify-center align-center">
+						<!-- <v-btn v-for="(item, i) in categories" :key="i" :to="item.to" class="text-capitalize" exact
+							exact-active-class="accent--text" text>{{ item.name }}
+						</v-btn> -->
+						<v-list v-for="(item, i) in mainCategories" :key="i" class="text-capitalize" exact
+							exact-active-class="accent--text" text :to="item.name">
+							<v-list-item v-if="item.count > 0" :to="`/category/${item.slug}`">
+								<v-list-item-title>{{ item.name }}</v-list-item-title>
+							</v-list-item>
+							<v-menu offset-y v-else>
+								<template v-slot:activator="{ on, attrs }">
+									<v-list-item v-bind="attrs" v-on="on"> {{ item.name }} </v-list-item>
+								</template>
+								<v-list>
+									<v-list-item v-for="(child, index) in getChildren(item)" :key="index"
+										:to="`/category/${child.slug}`">
+										<v-list-item-title>{{ child.name }}</v-list-item-title>
+									</v-list-item>
+								</v-list>
+							</v-menu>
+						</v-list>
 					</v-col>
 					<v-col v-if="$vuetify.breakpoint.mdAndUp" class="text-right">
 						<v-btn v-for="(item, i) in btnItems" :key="i" :color="item.color" :href="item.href"
@@ -69,6 +86,29 @@ export default {
 				to: "/categories",
 			},
 		],
+		categories: []
 	}),
+	methods: {
+		getChildren(item) {
+			return this.categories.filter(cat => cat.count > 0 && cat.parent === item.id);
+		}
+	}
+	,
+	computed: {
+		// items() {
+		// 	// const categories = this.$store.state.categories;
+		// 	// console.log(categories);
+		// 	// return categories;
+		// }
+		mainCategories() {
+			return this.categories.filter(r => (r.count === 0 && r.parent === 0 && this.categories.some(p => p.parent === r.id)) || (r.count > 0 && r.parent === 0 && !this.categories.some(p => p.parent === r.id)))
+		}
+	},
+	mounted() {
+		this.$store.dispatch("getItems", { type: "categories", params: null }).then(result => {
+
+			this.categories = result//.filter(r => (r.count === 0 && r.parent === 0 && result.some(p => p.parent === r.id)) || (r.count > 0 && r.parent === 0 && !result.some(p => p.parent === r.id)))
+		});
+	}
 };
 </script>

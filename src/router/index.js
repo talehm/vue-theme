@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index';  // import the store
-import _helpers from '@/_helpers';
+// import _helpers from '@/_helpers';
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,21 +34,7 @@ const routes = [
 	{
 		path: '/definition/:slug',
 		name: 'Definition',
-		props: route => {
-			const slug = route.params.slug;
-
-			// Find the category based on slug
-			const category = store.state.categories.find(c => c.slug === slug);
-
-			// Convert category name to camelCase
-			const name = category ? _helpers.fn.toCamelCase(category.name) : null;
-
-			// Return props
-			return {
-				category: category,
-				items: store.state[name]
-			};
-		}, // Custom function to define props
+		props: true, // Custom function to define props
 		component: () => import("@/views/Definition.vue"),
 		beforeEnter: async (to, from, next) => {
 			try {

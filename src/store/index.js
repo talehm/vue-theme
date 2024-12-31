@@ -60,8 +60,10 @@ export default new Vuex.Store({
 			}
 
 		},
-		async getItems({ commit }, { type, name, params }) {
+		async getItems({ getters, commit }, { type, name, params }) {
 			try {
+				if (name && getters[name] && getters[name].length > 0) return;
+				if (!name && getters[type] && getters[type].length > 0) return;
 				const items = await api.fn.getItems(type, params);
 				commit('setItems', { type, name, items });
 				return items;

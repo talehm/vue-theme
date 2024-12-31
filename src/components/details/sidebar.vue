@@ -58,7 +58,6 @@ export default {
 		postList: () => import("@/components/details/post-list.vue")
 	},
 	computed: {
-
 		categories() {
 			return this.$store.state.categories;
 		}

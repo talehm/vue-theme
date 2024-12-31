@@ -104,7 +104,7 @@ export default {
 	},
 	mounted() {
 		// console.log(this.type);
-		// if (this.$store.state[this.type].length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
+		if (this.$store.state[this.type] && this.$store.state[this.type].length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
 		// this.getCategories();
 	}
 

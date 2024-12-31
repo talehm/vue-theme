@@ -58,14 +58,14 @@ export default {
 			if (!response.ok) {
 				throw new Error(`Request failed with status: ${response.status}`);
 			}
-			switch (type) {
-				case "categories":
-					data = data.filter(i => i.count > 0);
-					break;
+			// switch (type) {
+			// 	case "categories":
+			// 		// data = data.filter(i => i.count > 0);
+			// 		break;
 
-				default:
-					break;
-			}
+			// 	default:
+			// 		break;
+			// }
 			// Parse the response JSON
 			return data;
 		}

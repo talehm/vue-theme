@@ -3,6 +3,7 @@
 		<v-row>
 			<v-col cols="12" lg="12" xl="8">
 				<div>
+					<searchbar class=" pl-16 pr-16 mx-auto"></searchbar>
 					<v-card class="mx-auto ma-2">
 						<article v-if="item">
 							<header class="mx-auto pa-8">
@@ -53,10 +54,13 @@
 </template>
 <script>
 import postMixin from "@/components/mixins/post-default"
+// import he from 'he';
+
 export default {
 	name: "DefinitionView",
 	mixins: [postMixin],
 	components: {
+		searchbar: () => import("@/components/details/searchbar"),
 		siderbar: () => import("@/components/details/sidebar"),
 		definition: () => import("@/components/details/definition")
 	},
@@ -67,7 +71,18 @@ export default {
 		content() {
 			const content = this.item.content.rendered.replaceAll("<p>", "").replaceAll("</p>", "").trim();
 			// let decoded = he.decode(content).replaceAll(/[\u2018\u2019]/g, "'").replaceAll(/[\u201C\u201D]/g, '"').replaceAll(/″/g, '"').replaceAll(/[\u2032\u02B9]/g, "'").trim();
-			return JSON.parse(content);
+			// const decodedString = he.decode(content);
+			let fixed = content
+				.replace(/&#8220;/g, '"') // Replace opening quotes
+				.replace(/&#8221;/g, '"') // Replace closing quotes
+				.replace(/&#8216;/g, "'") // Replace single opening quote
+				.replace(/&#8217;/g, "'") // Replace single closing quote
+				.replace(/&#8230;/g, "...") // Ellipsis
+				.replace(/&#8211;/g, "-") // En dash
+				.replace(/&#8212;/g, "--")
+				.replace(/&#8243;/g, '"'); // Em dash
+
+			return JSON.parse(fixed);
 		},
 		pronunciation() {
 			if (!this.content.pronunciation || !this.content.pronunciation.all) return;
@@ -87,6 +102,12 @@ export default {
 		playAudio() {
 			this.audio.play();
 		},
+
+	},
+	mounted() {
+		console.log("AA");
+		this.fetchCategories(this.slug).then(() => this.isReady = true);
+
 	}
 };
 </script>
