@@ -7,9 +7,9 @@
 					<v-card class="mx-auto ma-2">
 						<article v-if="item">
 							<header class="mx-auto pa-8">
-								<span class="text-h4 text--primary font-weight-medium" v-html="content.word"></span><br>
+								<h1 class="text-h4 text--primary font-weight-medium" v-html="content.word"></h1><br>
 								<span v-if="pronunciation" class="text-subtitle-1 blue-grey--text text--lighten-1">[{{
-							pronunciation }}]</span>
+									pronunciation }}]</span>
 								<v-icon dark @click="playAudio" class="font-size-sm green--text" v-if="audio"> fa4
 									fa-solid fa-play </v-icon>
 							</header>
