@@ -84,3 +84,46 @@ function custom_jetpack_sitemap_post_types( $post_types ) {
 
     return $post_types;
 }
+
+
+
+
+
+function register_yoast_meta() {
+    // Define an array of meta keys to register
+    $meta_keys = array(
+        '_yoast_wpseo_focuskw' => 'Yoast Focus Keyword',
+        '_yoast_wpseo_metadesc' => 'Yoast Meta Description',
+        '_yoast_wpseo_title' => 'Yoast SEO Title',
+        '_yoast_wpseo_schema_article_type' => 'Yoast Schema Article Type',
+        '_yoast_wpseo_opengraph_title' => 'Yoast OpenGraph Title',
+        '_yoast_wpseo_opengraph_description' => 'Yoast OpenGraph Description',
+        '_yoast_wpseo_twitter_title' => 'Yoast Twitter Title',
+        '_yoast_wpseo_twitter_description' => 'Yoast Twitter Description',
+        '_yoast_wpseo_canonical' => 'Yoast Canonical URL',
+    );
+
+    // Register metadata for both 'definition' and 'riddle' post types
+    $post_types = array('definition', 'riddle');  // Add other post types as needed
+
+    foreach ($post_types as $post_type) {
+        foreach ($meta_keys as $meta_key => $description) {
+            register_post_meta($post_type, $meta_key, array(
+                'type'         => 'string',
+                'description'  => $description,
+                'single'       => true,
+                'show_in_rest' => true,  // Makes it accessible via REST API
+                'auth_callback' => function() {
+                    return current_user_can('edit_posts'); // Permission check
+                }
+            ));
+        }
+    }
+}
+add_action('init', 'register_yoast_meta');
+
+
+// add_action('init', 'definition_publicize'); function definition_publicize() { add_post_type_support('definition', 'publicize');  add_post_type_support('definition', 'thumbnail');}
+add_action('init', 'riddle_publicize'); function riddle_publicize() { add_post_type_support('riddle', 'publicize');  add_post_type_support('definition', 'thumbnail');}
+
+add_theme_support('post-thumbnails');
