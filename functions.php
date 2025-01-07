@@ -72,3 +72,15 @@ function custom_page_permalink($post_link, $post) {
     return $post_link;
 }
 add_filter('page_link', 'custom_page_permalink', 10, 2);
+
+add_filter('jetpack_sitemap_post_types', 'custom_jetpack_sitemap_post_types' );
+
+function custom_jetpack_sitemap_post_types( $post_types ) {
+    // Add multiple custom post types
+    $custom_types = ['riddle', 'definition', 'nanogram'];
+
+    // Merge custom types into the existing post types array
+    $post_types = array_merge( $post_types, $custom_types );
+
+    return $post_types;
+}

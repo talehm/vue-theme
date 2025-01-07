@@ -52,13 +52,13 @@
 .text-hint {
 	color: #ccd1d1;
 }
-.definition {
-	a {
-		pointer-events: none;
-		text-decoration: none;
-		color: inherit !important;
-	}
+.definition,
+.paragraphs a {
+	pointer-events: none;
+	color: inherit !important;
+	text-decoration: none;
 }
+
 .article {
 
 	h1 {

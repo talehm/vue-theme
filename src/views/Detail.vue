@@ -19,7 +19,7 @@
 									<v-btn color="accent">{{ getCategoryName(item.categories[0]) }}</v-btn>
 								</div>
 								<div class="text-h4 font-weight-bold primary--text pt-4 pb-4">
-									<h1>{{ item.title.rendered }}</h1>
+									<h1>{{ title }}</h1>
 								</div>
 								<div class="d-flex align-center justify-space-between">
 									<div class="d-flex align-center">
@@ -74,6 +74,17 @@ export default {
 	computed: {
 		item() {
 			return this.$store.state.post;
+		},
+		title() {
+			return this.item.title.rendered.replace(/"/g, "'")
+				.replace(/&#8220;/g, '"') // Replace opening quotes
+				.replace(/&#8221;/g, '"') // Replace closing quotes
+				.replace(/&#8216;/g, "'") // Replace single opening quote
+				.replace(/&#8217;/g, "'") // Replace single closing quote
+				.replace(/&#8230;/g, "...") // Ellipsis
+				.replace(/&#8211;/g, "-") // En dash
+				.replace(/&#8212;/g, "--")
+				.replace(/&#8243;/g, '"'); // Em dash
 		}
 	},
 	methods: {
