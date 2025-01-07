@@ -5,7 +5,7 @@
 				<div>
 					<searchbar class=" pl-16 pr-16 mx-auto"></searchbar>
 					<v-card class="mx-auto ma-2">
-						<article v-if="item" class="definition">
+						<div v-if="item" class="definition">
 							<header class="mx-auto pa-8">
 								<h1 class="text-h4 text--primary font-weight-medium" v-html="content.word"></h1><br>
 								<span v-if="pronunciation" class="text-subtitle-1 blue-grey--text text--lighten-1">[{{
@@ -18,7 +18,7 @@
 									<definition :item="item" :length="content.results.length" :index="i + 1" />
 								</v-col>
 							</v-row>
-						</article>
+						</div>
 					</v-card>
 				</div>
 			</v-col>
@@ -47,7 +47,12 @@ export default {
 			return this.$store.state.definition;
 		},
 		content() {
-			const content = this.item.content.rendered.replaceAll("<p>", "").replaceAll("</p>", "").trim();
+			const content = this.item.content.rendered
+				.replaceAll("<p>", "") // Remove opening <p> tags
+				.replaceAll("</p>", "") // Remove closing </p> tags
+				.trim();
+
+			// Replace HTML entities
 			let fixed = content.replace(/"/g, "'")
 				.replace(/&#8220;/g, '"') // Replace opening quotes
 				.replace(/&#8221;/g, '"') // Replace closing quotes
@@ -55,9 +60,47 @@ export default {
 				.replace(/&#8217;/g, "'") // Replace single closing quote
 				.replace(/&#8230;/g, "...") // Ellipsis
 				.replace(/&#8211;/g, "-") // En dash
-				.replace(/&#8212;/g, "--")
-				.replace(/&#8243;/g, '"'); // Em dash
-			return JSON.parse(fixed);
+				.replace(/&#8212;/g, "--") // Em dash
+				.replace(/&#8243;/g, '"'); // Double prime
+
+			// Optional: Check if the content is a valid JSON string before parsing
+			try {
+				fixed = JSON.parse(fixed);
+			} catch (error) {
+				console.error("Error parsing JSON:", error);
+			}
+
+			// Function to remove anchor tags from keys only
+			const extractTextFromKeys = (obj) => {
+				if (typeof obj === 'string') {
+					return obj; // No modification to values
+				}
+
+				if (Array.isArray(obj)) {
+					return obj.map(extractTextFromKeys); // Recursively handle arrays
+				}
+
+				if (typeof obj === 'object' && obj !== null) {
+					const result = {};
+					for (const key in obj) {
+						// Ensure we only access own properties of the object
+						if (Object.prototype.hasOwnProperty.call(obj, key)) {
+							const cleanKey = key.replace(/<a[^>]*>(.*?)<\/a>/g, '$1'); // Clean the key (not value)
+							result[cleanKey] = extractTextFromKeys(obj[key]); // Recursively handle the value
+						}
+					}
+					return result;
+				}
+
+				return obj; // Return the value if it's not a string, array, or object
+			}
+
+			// Process the content
+			const result = extractTextFromKeys(fixed);
+			console.log(result);
+			return result;
+
+
 		},
 		pronunciation() {
 			if (!this.content.pronunciation || !this.content.pronunciation.all) return;

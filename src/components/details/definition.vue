@@ -37,7 +37,7 @@ export default {
 	data() {
 		return {
 			// expendedDetail: "synonyms",
-			expandedBtn: 0
+			expandedBtn: 1
 		}
 	},
 	props: {
@@ -47,6 +47,7 @@ export default {
 	},
 	methods: {
 		showDetails(index) {
+			console.log("DDD");
 			this.expandedBtn = index;
 		}
 	},
