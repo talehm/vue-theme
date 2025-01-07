@@ -7,7 +7,7 @@
 					<v-card class="mx-auto ma-4" v-for="( element, i) in elements" :key="i">
 						<article v-if="item">
 							<v-card-text class="pb-0 d-flex justify-space-between">
-								<span class="text-h5 text--primary">{{ element.riddle }} </span>
+								<span class="text-h5 text--primary">{{ (i + 1) }} . {{ element.riddle }} </span>
 							</v-card-text>
 							<v-expand-transition>
 								<v-card-text class="pb-0" v-if="reveal[i]">
