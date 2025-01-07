@@ -49,9 +49,15 @@
 								</v-list>
 							</v-menu>
 						</v-list>
+						<v-list v-for="(item, i) in staticCategories" :key="i + '_static'" class="text-capitalize" exact
+							exact-active-class="accent--text" text :to="item.to">
+							<v-list-item :to="`${item.to}`">
+								<v-list-item-title>{{ item.title }}</v-list-item-title>
+							</v-list-item>
+						</v-list>
 					</v-col>
 					<v-col v-if="$vuetify.breakpoint.mdAndUp" class="text-right">
-						<v-btn v-for="(item, i) in btnItems" :key="i" :color="item.color" :href="item.href"
+						<v-btn v-for="(item, i) in btnItems" :key="i + '_static'" :color="item.color" :href="item.href"
 							:outlined="item.outlined" :target="item.target" :to="item.to" class="ml-3 text-capitalize">
 							<v-icon left>{{ item.icon }}</v-icon>
 							{{ item.text }}
@@ -76,15 +82,11 @@ export default {
 			// 	icon: "mdi-download",
 			// },
 		],
-		barItems: [
+		staticCategories: [
 			{
-				title: "Home",
-				to: "/",
-			},
-			{
-				title: "Categories",
-				to: "/categories",
-			},
+				title: "Riddles",
+				to: "/riddles",
+			}
 		],
 		categories: []
 	}),

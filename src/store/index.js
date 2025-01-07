@@ -73,6 +73,7 @@ export default new Vuex.Store({
 		},
 		async getItemById({ commit }, { type, id }) {
 			try {
+				if (id === 0) return;
 				switch (type) {
 					case "media": {
 						const item = await api.fn.getMedia(`${type}/${id}`);

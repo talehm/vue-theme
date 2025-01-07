@@ -28,8 +28,23 @@ const routes = [
 				console.error('Error fetching post:', error);
 				next(false); // Prevent navigation if there's an error
 			}
-
 		}
+	},
+	{
+		path: '/riddles',
+		name: 'Riddles',
+		props: true, // Custom function to define props
+		component: () => import("@/views/Riddles.vue"),
+		beforeEnter: async (to, from, next) => {
+			await store.dispatch("getItems", {
+				type: "riddle", name: "riddles", params: {
+					per_page: 50,
+					page: 1,
+				}
+			});
+			next();
+		}
+
 	},
 	{
 		path: '/definition/:slug',
@@ -47,7 +62,6 @@ const routes = [
 				console.error('Error fetching post:', error);
 				next(false); // Prevent navigation if there's an error
 			}
-
 		}
 	},
 	{
@@ -57,6 +71,7 @@ const routes = [
 		component: () => import("@/views/Category.vue"),
 
 	},
+
 
 	{
 		path: '/authors',
@@ -79,6 +94,25 @@ const routes = [
 		}
 	},
 
+	{
+		path: '/riddle/:slug',
+		name: 'riddle',
+		component: () => import("@/views/Riddle.vue"),
+		beforeEnter: async (to, from, next) => {
+			try {
+				console.log("AAAA");
+				if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
+				// to.isReady = false;  // Set the route as ready
+				const slug = to.params.slug; // Get slug dynamically from the URL
+				console.log(slug);
+				await store.dispatch('getItemBySlug', { type: "riddle", name: "post", slug });  // fetch authentication data from API
+				next();
+			} catch (error) {
+				console.error('Error fetching post:', error);
+				next(false); // Prevent navigation if there's an error
+			}
+		}
+	},
 	{
 		path: '/:slug',
 		name: 'article',
