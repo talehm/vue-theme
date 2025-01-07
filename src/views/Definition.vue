@@ -5,11 +5,11 @@
 				<div>
 					<searchbar class=" pl-16 pr-16 mx-auto"></searchbar>
 					<v-card class="mx-auto ma-2">
-						<article v-if="item">
+						<article v-if="item" class="definition">
 							<header class="mx-auto pa-8">
 								<h1 class="text-h4 text--primary font-weight-medium" v-html="content.word"></h1><br>
 								<span v-if="pronunciation" class="text-subtitle-1 blue-grey--text text--lighten-1">[{{
-									pronunciation }}]</span>
+							pronunciation }}]</span>
 								<v-icon dark @click="playAudio" class="font-size-sm green--text" v-if="audio"> fa4
 									fa-solid fa-play </v-icon>
 							</header>
@@ -20,28 +20,6 @@
 							</v-row>
 						</article>
 					</v-card>
-					<!-- <v-card flat color="transparent" class="article">
-
-							<v-card-text>
-
-								<div class="text-h4 font-weight-bold primary--text pt-4 pb-4">
-									<h1>{{ item.title.rendered }}</h1>
-								</div>
-
-								<div class="d-flex align-center justify-space-between">
-									<div class="d-flex align-center">
-										<v-avatar color="accent" size="36">
-											<v-icon dark>mdi-book-open-variant-outline</v-icon>
-										</v-avatar>
-										<div class="pl-2 text-body-1">{{ calculateReadTime(item.content.rendered) }}
-										</div>
-									</div>
-								</div>
-								<v-divider class="my-4 "></v-divider>
-								<div class="paragraphs" v-html="item.content.rendered">
-								</div>
-							</v-card-text>
-						</v-card> -->
 				</div>
 			</v-col>
 			<v-col>
@@ -70,9 +48,7 @@ export default {
 		},
 		content() {
 			const content = this.item.content.rendered.replaceAll("<p>", "").replaceAll("</p>", "").trim();
-			// let decoded = he.decode(content).replaceAll(/[\u2018\u2019]/g, "'").replaceAll(/[\u201C\u201D]/g, '"').replaceAll(/″/g, '"').replaceAll(/[\u2032\u02B9]/g, "'").trim();
-			// const decodedString = he.decode(content);
-			let fixed = content
+			let fixed = content.replace(/"/g, "'")
 				.replace(/&#8220;/g, '"') // Replace opening quotes
 				.replace(/&#8221;/g, '"') // Replace closing quotes
 				.replace(/&#8216;/g, "'") // Replace single opening quote
@@ -81,7 +57,6 @@ export default {
 				.replace(/&#8211;/g, "-") // En dash
 				.replace(/&#8212;/g, "--")
 				.replace(/&#8243;/g, '"'); // Em dash
-
 			return JSON.parse(fixed);
 		},
 		pronunciation() {
