@@ -2,7 +2,9 @@
 @import './_mixins.scss';
 
 .paragraphs {
-
+	font-size: 1rem;
+		line-height: 1.75rem;
+		text-align: justify;
 
 	img {
 		width: 100%;
@@ -36,11 +38,11 @@
 
 		}
 	}
-																a {
-																	pointer-events: none;
-																	color: inherit !important;
-																	text-decoration: none;
-																}
+				a {
+					pointer-events: none;
+					color: inherit !important;
+					text-decoration: none;
+				}
 }
 .story {
 	&-actions {
@@ -55,11 +57,11 @@
 .text-hint {
 	color: #ccd1d1;
 }
-.definitions a,
+.definition a,
 .paragraphs a {
-	font-size: 1rem;
-		line-height: 1.75rem;
-		text-align: justify;
+	pointer-events: none;
+	color: inherit !important;
+	text-decoration: none;
 }
 
 .article {
