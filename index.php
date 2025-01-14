@@ -2,6 +2,12 @@
 <html <?php language_attributes(); ?>>
 <head>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6KVQ7Z3YN6"></script>
+
+<!-- Yandex.RTB -->
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+
+
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -37,7 +43,16 @@
      crossorigin="anonymous"></script>
 </head>
 <body <?php body_class(); ?>>
-
+<!-- Yandex.RTB R-A-13687929-1 -->
+<div id="yandex_rtb_R-A-13687929-1"></div>
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-13687929-1",
+        "renderTo": "yandex_rtb_R-A-13687929-1"
+    })
+})
+</script>
     <!-- This div will be the mounting point for your Vue app -->
     <div id="app"></div>
 
