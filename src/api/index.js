@@ -44,7 +44,7 @@ export default {
 		getItems: async (type, params = {}) => {
 			let url = `https://trueandfiction.com/wp-json/wp/v2/${type}?`;
 			if (type != "categories") {
-				url += '_fields="id,date,link,title,slug,excerpt,type,featured_media,meta,categories,modified"';
+				url += '_fields=id,date,link,title,slug,excerpt,type,featured_media,meta,categories,modified';
 			}
 
 			if (params && Object.keys(params).length > 0) {

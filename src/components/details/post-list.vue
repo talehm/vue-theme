@@ -22,9 +22,9 @@
 									<v-avatar color="accent" size="18">
 										<v-icon dark x-small>mdi-book-open-variant-outline</v-icon>
 									</v-avatar>
-									<div class="pl-2 text-caption text-hint">
+									<!-- <div class="pl-2 text-caption text-hint">
 										{{ calculateReadTime(item.content.rendered) }}
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</v-col>
