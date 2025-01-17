@@ -59,7 +59,7 @@ export default {
 	},
 	computed: {
 		categories() {
-			return this.$store.state.categories;
+			return this.$store.state.categories.find(t => t.params === this.params)?.items;
 		}
 	}
 }

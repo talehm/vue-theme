@@ -78,7 +78,7 @@ import postMixin from "../mixins/post-default";
 export default {
 	mixins: [postMixin],
 	props: {
-		type: String,
+
 		isGrid: {
 			type: Boolean,
 			default: false
@@ -93,9 +93,6 @@ export default {
 		media: () => import("@/components/details/image.vue"),
 	},
 	computed: {
-		items() {
-			return this.$store.state[this.type];
-		},
 		categories() {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
 		},
@@ -103,8 +100,9 @@ export default {
 	methods: {
 	},
 	mounted() {
+		console.log("A");
 		// console.log(this.type);
-		if (this.$store.state[this.type] && this.$store.state[this.type].length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
+		if (this.items && this.$store.state[this.type].length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
 		// this.getCategories();
 	}
 

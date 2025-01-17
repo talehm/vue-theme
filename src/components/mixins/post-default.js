@@ -1,5 +1,9 @@
 import _helpers from "@/_helpers";
 export default {
+	props: {
+		type: String,
+		params: { type: Object, default: null }
+	},
 	data() {
 		return {
 			isReady: false
@@ -9,6 +13,13 @@ export default {
 		categories() {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
 		},
+		data() {
+			return this.$store.state[this.type].find(t => t.params === this.params);
+		},
+		items() {
+			return this.data?.items;
+
+		}
 	},
 	beforeRouteUpdate(to, from, next) {
 		this.isReady = false;

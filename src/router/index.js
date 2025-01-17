@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import store from '../store/index';  // import the store
 // import _helpers from '@/_helpers';
 Vue.use(VueRouter)
+const hasCategories = (params) => (store.state.categories?.some(cat => cat.params === params)?.items?.length > 0)
 
 const routes = [
 	{
@@ -11,7 +12,8 @@ const routes = [
 		name: 'Home',
 		component: Home,
 		beforeEnter: async (to, from, next) => {
-			if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
+			const params = null;
+			if (!hasCategories(params)) await store.dispatch("getItems", { type: "categories", params: params });
 			next();
 		}
 	},
@@ -21,7 +23,8 @@ const routes = [
 		component: () => import("@/views/Categories.vue"),
 		beforeEnter: async (to, from, next) => {
 			try {
-				if (!store.state.categories || store.state.categories?.length > 0) next();
+				const params = null;
+				if (hasCategories(params)) next();
 				else await store.dispatch("getItems", { type: "categories", params: null });
 				next();
 			} catch (error) {
@@ -53,7 +56,8 @@ const routes = [
 		component: () => import("@/views/Definition.vue"),
 		beforeEnter: async (to, from, next) => {
 			try {
-				if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
+				const params = null;
+				if (!hasCategories(params)) await store.dispatch("getItems", { type: "categories", params: params });
 				// to.isReady = false;  // Set the route as ready
 				const slug = to.params.slug; // Get slug dynamically from the URL
 				await store.dispatch('getDefinitionBySlug', slug);  // fetch authentication data from API
@@ -100,8 +104,8 @@ const routes = [
 		component: () => import("@/views/Riddle.vue"),
 		beforeEnter: async (to, from, next) => {
 			try {
-				console.log("AAAA");
-				if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
+				const params = null;
+				if (!hasCategories(params)) await store.dispatch("getItems", { type: "categories", params: params });
 				// to.isReady = false;  // Set the route as ready
 				const slug = to.params.slug; // Get slug dynamically from the URL
 				console.log(slug);
@@ -120,7 +124,8 @@ const routes = [
 
 		beforeEnter: async (to, from, next) => {
 			try {
-				if (!store.state.categories || store.state.categories?.length === 0) await store.dispatch("getItems", { type: "categories", params: null });
+				const params = null;
+				if (!hasCategories(params)) await store.dispatch("getItems", { type: "categories", params: params });
 				// to.isReady = false;  // Set the route as ready
 				const slug = to.params.slug; // Get slug dynamically from the URL
 				await store.dispatch('getItemBySlug', { type: "posts", name: "post", slug });  // fetch authentication data from API

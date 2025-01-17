@@ -53,16 +53,18 @@ export default {
 		isCardView() {
 			return this.view === "card";
 		},
+		data() {
+			return this.$store.state[this.type].find(t => t.params === this.params);
+		},
 		items() {
-			const items = this.$store.state[this.type];
-			if (this.type === "categories") return items.map(item => ({
+			if (this.type === "categories") return this.data?.items.map(item => ({
 				id: item.id,
 				media: item.acf?.media,
 				title: item.name,
 				text: `${item.count} articles`,
 				slug: "category/" + item.slug
 			}))
-			else return items.map(item => ({
+			else return this.data?.items.map(item => ({
 				id: item.id,
 				media: item.featured_media,
 				title: item.title.rendered,
@@ -89,7 +91,7 @@ export default {
 		}
 	},
 	mounted() {
-		if (!this.items || this.items?.length === 0) this.$store.dispatch("getItems", { type: this.type, params: null });
+		if ((!this.items || this.items?.length === 0) || this.data.params != this.params) this.$store.dispatch("getItems", { type: this.type, params: null });
 	}
 
 }

@@ -9,14 +9,18 @@ export default new Vuex.Store({
 		authData: null,
 		media: [],
 		posts: [],
-		definitions: []
+		definitions: [],
+		categories: [],
+		requestTracker: new Map(),
+
 	},
 	mutations: {
 		setPost(state, post) {
 			state.post = post;
 		},
 		setItems(state, data) {
-			state[data.name ?? data.type] = data.items;
+			if (!state[data.name ?? data.type]) state[data.name ?? data.type] = [];
+			state[data.name ?? data.type].push({ items: data.items, params: data.params });
 		},
 		setItem(state, data) {
 			state[data.name ?? data.type] = data.item;
@@ -65,7 +69,7 @@ export default new Vuex.Store({
 				if (name && getters[name] && getters[name].length > 0) return;
 				if (!name && getters[type] && getters[type].length > 0) return;
 				const items = await api.fn.getItems(type, params);
-				commit('setItems', { type, name, items });
+				commit('setItems', { type, name, items, params });
 				return items;
 			} catch (error) {
 				console.error('Error fetching post:', error);
