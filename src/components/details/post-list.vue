@@ -59,8 +59,8 @@
 									<div class="d-flex align-center"><v-avatar color="accent" size="36">
 											<v-icon dark>mdi-book-open-variant-outline</v-icon>
 										</v-avatar>
-										<div class="pl-2 ">{{ calculateReadTime(item.content.rendered) }}
-										</div>
+										<!-- <div class="pl-2 ">{{ calculateReadTime(item.content.rendered) }}
+										</div> -->
 									</div>
 									<div class="pl-2 float-end">{{ formatDate(item.modified) }}</div>
 								</div>
