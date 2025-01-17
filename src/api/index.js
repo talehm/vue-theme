@@ -46,7 +46,7 @@ export default {
 
 			if (params && Object.keys(params).length > 0) {
 				const queryString = new URLSearchParams(params).toString();
-				url += `?${queryString}`;
+				url += `?${queryString}&_fields="id,date,link,title,slug,excerpt,type,featured_media,meta,categories"`;
 			}
 			// Make the fetch request with the provided URL and options
 			const response = await fetch(url, params);
