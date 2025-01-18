@@ -1,3 +1,5 @@
+
+text/x-generic functions.php ( PHP script, ASCII text )
 <?php
 
 function vue_wordpress_enqueue_assets() {
@@ -73,17 +75,17 @@ function custom_page_permalink($post_link, $post) {
 }
 add_filter('page_link', 'custom_page_permalink', 10, 2);
 
-add_filter('jetpack_sitemap_post_types', 'custom_jetpack_sitemap_post_types' );
+// add_filter('jetpack_sitemap_post_types', 'custom_jetpack_sitemap_post_types' );
 
-function custom_jetpack_sitemap_post_types( $post_types ) {
-    // Add multiple custom post types
-    $custom_types = ['riddle', 'definition', 'nanogram'];
+// function custom_jetpack_sitemap_post_types( $post_types ) {
+//     // Add multiple custom post types
+//     $custom_types = ['riddle', 'definition', 'nanogram'];
 
-    // Merge custom types into the existing post types array
-    $post_types = array_merge( $post_types, $custom_types );
+//     // Merge custom types into the existing post types array
+//     $post_types = array_merge( $post_types, $custom_types );
 
-    return $post_types;
-}
+//     return $post_types;
+// }
 
 
 
@@ -127,3 +129,7 @@ add_action('init', 'register_yoast_meta');
 add_action('init', 'riddle_publicize'); function riddle_publicize() { add_post_type_support('riddle', 'publicize');  add_post_type_support('definition', 'thumbnail');}
 
 add_theme_support('post-thumbnails');
+add_filter( 'jetpack_publicize_options', function( $option ) {
+    $option['attach_media'] = true;
+    return $option;
+} );
