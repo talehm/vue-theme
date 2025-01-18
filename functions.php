@@ -1,5 +1,3 @@
-
-text/x-generic functions.php ( PHP script, ASCII text )
 <?php
 
 function vue_wordpress_enqueue_assets() {
