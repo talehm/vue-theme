@@ -104,7 +104,7 @@ function register_yoast_meta() {
     );
 
     // Register metadata for both 'definition' and 'riddle' post types
-    $post_types = array('definition', 'riddle');  // Add other post types as needed
+    $post_types = array('definition', 'riddle', 'joke', 'nanogram');  // Add other post types as needed
 
     foreach ($post_types as $post_type) {
         foreach ($meta_keys as $meta_key => $description) {
