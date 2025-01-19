@@ -1,14 +1,13 @@
 <template>
 	<div class="joke">
 		<v-row>
-			<v-col cols="12" lg="12" xl="8">
+			<v-col cols="12" lg="12" xl="2">
+			</v-col>
+			<v-col cols="12" lg="12" xl="6">
 				<div>
 					<div>
 						<v-card flat color="transparent" class="article">
 							<v-card-text>
-								<div>
-									<v-btn color="accent">{{ getCategoryName(item["joke-category"][0]) }}</v-btn>
-								</div>
 								<div class="text-h4 font-weight-bold primary--text pt-4 pb-4">
 									<h1>{{ title }}</h1>
 								</div>
