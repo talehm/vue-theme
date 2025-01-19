@@ -5,10 +5,6 @@
 				<div>
 					<div>
 						<v-card flat color="transparent" class="article">
-							<v-card-actions class="float-left story-actions">
-								<v-btn elevation="2" large :color="'success'" class="ma-2" :href="randomItem"
-									target="_blank" rel="noopener noreferrer"> Get Random Joke </v-btn>
-							</v-card-actions>
 							<v-card-text>
 								<div>
 									<v-btn color="accent">{{ getCategoryName(item["joke-category"][0]) }}</v-btn>
@@ -28,6 +24,10 @@
 								<v-divider class="my-4 "></v-divider>
 								<div ref="textToRead" class="paragraphs" v-html="item.content.rendered">
 								</div>
+								<v-card-actions class="float-left">
+									<v-btn elevation="2" x-large :color="'success'" class="ma-2" :href="randomItem"
+										target="_blank" rel="noopener noreferrer"> Read Another Joke </v-btn>
+								</v-card-actions>
 							</v-card-text>
 						</v-card>
 					</div>
@@ -80,7 +80,7 @@ export default {
 	},
 	methods: {
 		getRandomJoke() {
-			this.$api.fn.getRandomItem("joke", 103).then(link => {
+			this.$api.fn.getRandomItem("joke").then(link => {
 				this.randomItem = link;
 				// window.open(link, "_blank", "noopener,noreferrer");
 			})

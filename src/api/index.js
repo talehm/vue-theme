@@ -74,14 +74,12 @@ export default {
 		},
 		getRandomItem: async (post_type, category) => {
 			let url = `https://trueandfiction.com/wp-json/custom/v1/random-post`;
-			const params = { post_type, category }
+			const params = { post_type, category: category || '' }
 			if (params && Object.keys(params).length > 0) {
 				const queryString = new URLSearchParams(params).toString();
 				url += `?${queryString}`;
 			}
 			return sendRequest(url, params);
 		}
-
-
 	}
 };
