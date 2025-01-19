@@ -47,7 +47,6 @@ export default {
 	},
 	methods: {
 		showDetails(index) {
-			console.log("DDD");
 			this.expandedBtn = index;
 		}
 	},

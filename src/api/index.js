@@ -61,7 +61,7 @@ export default {
 		},
 		getItems: async (type, params = {}) => {
 			let url = `https://trueandfiction.com/wp-json/wp/v2/${type}?`;
-			if (type != "categories") {
+			if (type === "posts") {
 				url += '_fields=id,date,link,title,slug,excerpt,type,featured_media,meta,categories,modified';
 			}
 
@@ -72,6 +72,15 @@ export default {
 			return sendRequest(url, params).then((response) => response);
 
 		},
+		getRandomItem: async (post_type, category) => {
+			let url = `https://trueandfiction.com/wp-json/custom/v1/random-post`;
+			const params = { post_type, category }
+			if (params && Object.keys(params).length > 0) {
+				const queryString = new URLSearchParams(params).toString();
+				url += `?${queryString}`;
+			}
+			return sendRequest(url, params);
+		}
 
 
 	}

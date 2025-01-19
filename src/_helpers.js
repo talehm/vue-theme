@@ -22,8 +22,7 @@ export default {
 			});
 		},
 		toCamelCase(str) {
-			return str
-				.split(' ') // Split words by spaces
+			return str?.split(' ') // Split words by spaces
 				.map((word, index) =>
 					index === 0
 						? word.toLowerCase() // Lowercase first word

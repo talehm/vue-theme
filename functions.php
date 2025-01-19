@@ -104,7 +104,7 @@ function register_yoast_meta() {
     );
 
     // Register metadata for both 'definition' and 'riddle' post types
-    $post_types = array('definition', 'riddle');  // Add other post types as needed
+    $post_types = array('definition', 'riddle', 'joke', 'nanogram');  // Add other post types as needed
 
     foreach ($post_types as $post_type) {
         foreach ($meta_keys as $meta_key => $description) {
@@ -127,3 +127,67 @@ add_action('init', 'register_yoast_meta');
 add_action('init', 'riddle_publicize'); function riddle_publicize() { add_post_type_support('riddle', 'publicize');  add_post_type_support('definition', 'thumbnail');}
 
 add_theme_support('post-thumbnails');
+
+
+add_action('rest_api_init', function () {
+    register_rest_route('custom/v1', '/random-post', array(
+        'methods'  => 'GET',
+        'callback' => 'fetch_random_post_with_params',
+        'args'     => array(
+            'post_type' => array(
+                'default' => 'post',
+                'sanitize_callback' => 'sanitize_text_field',
+            ),
+            'category' => array(
+                'sanitize_callback' => 'absint', // Ensure category ID is an integer
+            ),
+        ),
+    ));
+});
+
+function fetch_random_post_with_params($request) {
+    global $wpdb;
+
+    // Get parameters from the request
+    $post_type = $request->get_param('post_type');
+    $category  = $request->get_param('category');
+
+    // Build SQL query with optional category filter
+    $query = "
+        SELECT ID
+        FROM $wpdb->posts
+        WHERE post_status = 'publish'
+          AND post_type = %s
+    ";
+
+    $query_params = [$post_type];
+
+    // Add category filter if provided
+    if ($category) {
+        $query .= " AND ID IN (
+            SELECT object_id
+            FROM $wpdb->term_relationships
+            WHERE term_taxonomy_id = %d
+        )";
+        $query_params[] = $category;
+    }
+
+    // Add random order and limit to 1
+    $query .= " ORDER BY RAND() LIMIT 1";
+
+    // Prepare and execute the query
+    $random_post_id = $wpdb->get_var($wpdb->prepare($query, ...$query_params));
+
+    if (!$random_post_id) {
+        return new WP_Error('no_post', 'No posts found', array('status' => 404));
+    }
+
+    // Get the post object for the random post ID
+    $post = get_post($random_post_id);
+
+    // Format the response
+    $response =  get_permalink($post);
+
+
+    return rest_ensure_response($response);
+}

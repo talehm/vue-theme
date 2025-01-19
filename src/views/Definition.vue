@@ -64,41 +64,41 @@ export default {
 				.replace(/&#8243;/g, '"'); // Double prime
 
 			// Optional: Check if the content is a valid JSON string before parsing
+			console.log("AAAA");
+			fixed = fixed.replace(/"(<a [^>]*>(.*?)<\/a>)"/g, '"$2"');
+			console.log(fixed);
+			let jsonObject = JSON.parse(fixed);
+
 			try {
-				fixed = JSON.parse(fixed);
+				// Parse the cleaned string
+
+				// Function to recursively clean keys
+				const extractTextFromKeys = (obj) => {
+					if (typeof obj === 'object' && obj !== null) {
+						Object.keys(obj).forEach(key => {
+							// Process each key to remove HTML tags
+							let cleanKey = key.replace(/<a [^>]*>(.*?)<\/a>/g, '$1');
+							if (cleanKey !== key) {
+								// Rename the key
+								obj[cleanKey] = obj[key];
+								delete obj[key];
+							}
+							// Recurse for nested structures
+							if (typeof obj[cleanKey] === 'object') {
+								extractTextFromKeys(obj[cleanKey]);
+							}
+						});
+					}
+				};
+
+				// Clean keys in the parsed JSON object
+				extractTextFromKeys(jsonObject);
+				// Output the final processed JSON
+				console.log(JSON.stringify(jsonObject, null, 2));
 			} catch (error) {
 				console.error("Error parsing JSON:", error);
 			}
-
-			// Function to remove anchor tags from keys only
-			const extractTextFromKeys = (obj) => {
-				if (typeof obj === 'string') {
-					return obj; // No modification to values
-				}
-
-				if (Array.isArray(obj)) {
-					return obj.map(extractTextFromKeys); // Recursively handle arrays
-				}
-
-				if (typeof obj === 'object' && obj !== null) {
-					const result = {};
-					for (const key in obj) {
-						// Ensure we only access own properties of the object
-						if (Object.prototype.hasOwnProperty.call(obj, key)) {
-							const cleanKey = key.replace(/<a[^>]*>(.*?)<\/a>/g, '$1'); // Clean the key (not value)
-							result[cleanKey] = extractTextFromKeys(obj[key]); // Recursively handle the value
-						}
-					}
-					return result;
-				}
-
-				return obj; // Return the value if it's not a string, array, or object
-			}
-
-			// Process the content
-			const result = extractTextFromKeys(fixed);
-			console.log(result);
-			return result;
+			return jsonObject
 
 
 		},

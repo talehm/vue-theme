@@ -14,7 +14,7 @@ export default {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
 		},
 		data() {
-			return this.$store.state[this.type].find(t => t.params === this.params);
+			return this.$store.state?.[this.type]?.find(t => t.params === this.params);
 		},
 		items() {
 			return this.data?.items;
@@ -125,7 +125,7 @@ export default {
 
 		},
 		calculateReadTime(content) {
-			const wordCount = content.split(' ').length + 1;
+			const wordCount = content?.split(' ').length + 1;
 			let time = wordCount / 200;
 
 			if (!Number.isInteger(time)) {

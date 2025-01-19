@@ -54,43 +54,36 @@ export default {
 	props: [],
 	data() {
 		return {
-			isReady: false
+			isReady: false,
 		}
 	},
 	computed: {
 		items() {
-			return this.$store.state.riddles//.map(c => ({ ...c, description: c.description?.replace(/<[^>]*>/g, '') }) // Removes all tags
-			// );
+			return this.$store.state.riddles[0].items;//.map(c => ({ ...c, description: c.description?.replace(/<[^>]*>/g, '') }) // Removes all tags
 		}
 	},
 	components: {
 		siderbar: () => import("@/components/details/sidebar"),
 		media: () => import("@/components/details/image.vue"),
-
 	},
 	beforeRouteUpdate(to, from, next) {
 		this.$store.dispatch("getItems", {
 			type: "riddle", name: "riddles", params: {
-				per_page: 50, // this.$store.state.site.posts_per_page,
+				per_page: 50,
 				page: 1,
 			}
 		}).then(() => {
 			next();
-			// this.isReady = true;
-
 		});
 	},
 	mounted() {
-		console.log("SSS");
 		this.$store.dispatch("getItems", {
 			type: "riddle", name: "riddles", params: {
-				per_page: 50, // this.$store.state.site.posts_per_page,
+				per_page: 50,
 				page: 1,
 			}
 		}).then(() => {
-			// next();
 			this.isReady = true;
-
 		});
 
 	}

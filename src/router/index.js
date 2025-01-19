@@ -97,7 +97,6 @@ const routes = [
 			next();
 		}
 	},
-
 	{
 		path: '/riddle/:slug',
 		name: 'riddle',
@@ -110,6 +109,25 @@ const routes = [
 				const slug = to.params.slug; // Get slug dynamically from the URL
 				console.log(slug);
 				await store.dispatch('getItemBySlug', { type: "riddle", name: "post", slug });  // fetch authentication data from API
+				next();
+			} catch (error) {
+				console.error('Error fetching post:', error);
+				next(false); // Prevent navigation if there's an error
+			}
+		}
+	},
+	{
+		path: '/joke/:slug',
+		name: 'joke',
+		component: () => import("@/views/Joke.vue"),
+		beforeEnter: async (to, from, next) => {
+			try {
+				const params = null;
+				if (!hasCategories(params)) await store.dispatch("getItems", { type: "categories", params: params });
+				// to.isReady = false;  // Set the route as ready
+				const slug = to.params.slug; // Get slug dynamically from the URL
+				console.log(slug);
+				await store.dispatch('getItemBySlug', { type: "joke", name: "post", slug });  // fetch authentication data from API
 				next();
 			} catch (error) {
 				console.error('Error fetching post:', error);
