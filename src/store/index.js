@@ -67,7 +67,7 @@ export default new Vuex.Store({
 		async getItems({ getters, commit }, { type, name, params }) {
 			try {
 				if (name && getters[name] && getters[name].length > 0) return;
-				if (!name && getters[type] && getters[type].length > 0) return;
+				// if (!name && getters[type] && getters[type].length > 0) return;
 				const items = await api.fn.getItems(type, params);
 				commit('setItems', { type, name, items, params });
 				return items;
@@ -105,6 +105,9 @@ export default new Vuex.Store({
 		},
 		categories(state) {
 			return state.categories;
+		},
+		bedtimeStories(state) {
+			return state.bedtimeStories;
 		},
 		singleBySlug: state => ({ type, slug }) => {
 			for (let id in state[type]) {

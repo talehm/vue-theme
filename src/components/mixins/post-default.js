@@ -6,7 +6,7 @@ export default {
 	},
 	data() {
 		return {
-			isReady: false
+			isReady: false,
 		}
 	},
 	computed: {
@@ -14,11 +14,12 @@ export default {
 			return this.$store.state.categories;//.filter(p => p.id != this.post.id);
 		},
 		data() {
-			return this.$store.state?.[this.type]?.find(t => t.params === this.params);
+			console.log(this.$store.state?.[this.type], this.params);
+
+			return this.$store.state?.[this.type]?.find(t => JSON.stringify(t.params) === JSON.stringify(this.params));
 		},
 		items() {
 			return this.data?.items;
-
 		}
 	},
 	beforeRouteUpdate(to, from, next) {

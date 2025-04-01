@@ -5,11 +5,11 @@
 				<div>
 					<div>
 						<div>
-							<h2 class="text-h4 font-weight-bold">{{ category.name }}</h2>
+							<h2 class="text-h4 font-weight-bold">{{ category?.name }}</h2>
 							<h4 class="text-h6">{{ description }}</h4>
 						</div>
 						<v-divider class="my-4"></v-divider>
-						<post-list :type="categoryName" isGrid />
+						<post-list :type="'posts'" :params="{ 'categories': category.id }" isGrid />
 						<!-- <v-row>
 							<v-col cols="12" md="6" lg="4" v-for="item in items" :key="item.id">
 								<v-hover v-slot:default="{ hover }" open-delay="50" close-delay="50">
@@ -62,7 +62,7 @@ export default {
 	},
 	computed: {
 		category() {
-			const category = this.categories?.find(c => c.slug === this.slug);
+			const category = this.categories[0]?.items?.find(c => c.slug === this.slug);
 			return category;
 		},
 		items() {
